@@ -1,0 +1,7 @@
+.resizable
+{
+  width:120;
+  height:50;
+  background-color:'burlywood';
+  resize:'both'
+}
