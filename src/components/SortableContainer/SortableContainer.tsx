@@ -113,6 +113,11 @@ const SortableContainer = () => {
       setSortableItems((prevItems) => [...prevItems, newElement]);
 
     }
+
+    
+    // sorting styling
+    removeHintStyles();
+
   };
 
 
@@ -208,9 +213,10 @@ const SortableContainer = () => {
     e.preventDefault();
     var element = e.target;
 
-    element.classList.remove("active");
-    element.classList.add("hovered-top");
+    element.classList.remove("active"); 
     element.classList.remove("hovered-top");
+    element.classList.remove("hovered-bottom");
+      
     
   };
 
@@ -220,8 +226,10 @@ const SortableContainer = () => {
     e.preventDefault();
     
     var newSortableItems = [...sortableItems];
+    
 
-    if (hoveringIndex != null) // No already added item
+
+    if (hoveringIndex != null && hoveringItem != item) // No already added item
     { 
 
       // Get SortItemActionType
@@ -500,8 +508,6 @@ const SortableContainer = () => {
     
     }
  
-    console.log(_sortableItems);
-
     return _sortableItems;
 
   }
@@ -562,7 +568,6 @@ const SortableContainer = () => {
   }
 
   // END UTILITIES --------------------------------------------
-
 
 
   const sortableRenderer = (item : any, index : number) =>{
