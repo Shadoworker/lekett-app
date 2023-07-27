@@ -1,5 +1,17 @@
 body {
     margin: 0 auto;
+    overflow: hidden;
+}
+
+.header
+{
+  position: relative;
+  align-items: 'center';
+  justify-content: center;
+  background-color:#3a404c; 
+  height:46px; 
+  box-shadow: -1px -19px 12px 13px #08090b;
+  padding-inline: 10px;
 }
 
 .main-layout {
@@ -9,21 +21,21 @@ body {
 
 .sidebar {
     display: flex;
-    width: 20%;
-    background-color: #242730;
+    width: 15%;
+    background-color: #3a404c;
     padding: 20px;
 }
 
 .main-content {
     display: flex;
-    width: 80%;
+    width: 85%;
     flex-direction: row;
     overflow: hidden;
     background-color: bisque;
 }
 
 .frame-block {
-    width: 70%;
+    width: 80%;
     background-color: rgb(79, 187, 86);
     overflow-y: auto;
     height: 100vh;
@@ -31,8 +43,8 @@ body {
 }
 
 .props-block {
-    background-color: #242730;
-    width: 30%;
+    background-color: #3a404c;
+    width: 20%;
     height: 100vh;
 
 }
@@ -44,8 +56,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f5f5f5;
-    padding: 20px;
+    background-color: #1d2027;
+    padding: 0px 20px;
     overflow-y: auto;
     width: 80%;
     height: 100vh;
@@ -54,13 +66,16 @@ body {
   
   .phone-frame {
     position: relative;
-    width: 340px; /* Adjust the width to match your desired phone frame size */
-    height: 620px; /* Adjust the height to match your desired phone frame size */
-    background-color: white;
-    border-radius: 10px;
+    width: 310px;
+    height: 570px;
+    padding: 20px 10px;
+    padding-bottom: 50px;
+    /* background-color: #4d4747; */
+    border-radius: 30px;
     border: solid 1px gray;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     overflow: hidden;
+    margin-top: -40px;
   }
   
   .frame-content {
@@ -114,6 +129,7 @@ body {
     /* Adjust the width to match your desired phone frame size */
     height: 100%;
     /* Adjust the height to match your desired phone frame size */
+    border-radius: 4px;
     background-color: white;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     overflow-y: scroll;
@@ -177,4 +193,27 @@ body {
     height: 8px;
     background-color: #007bff;
     cursor: se-resize;
+  }
+
+  .lekett-input{
+
+    background-color: transparent !important;
+  }
+
+  .ant-select-selector
+  {
+    background-color: transparent !important;
+  }
+
+  .ant-select-selection-item
+  {
+    color: #ffffff;
+  }
+  .alignementRadio
+  {
+    margin: 5px 5px !important;
+    border-radius: 0px !important;
+    background-color: transparent;
+    /* max-width: 40px; */
+    color: #fff;
   }
