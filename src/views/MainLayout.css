@@ -66,7 +66,7 @@ body {
   
   .phone-frame {
     position: relative;
-    width: 310px;
+    width: 300px;
     height: 570px;
     padding: 20px 10px;
     padding-bottom: 50px;
@@ -105,7 +105,7 @@ body {
   .draggable-item {
     background-color: #f0f0f0;
     padding: 10px;
-    margin: 5px;
+    /* margin: 5px; */
     border: solid 1px gray;
     cursor: move;
   }
@@ -114,7 +114,7 @@ body {
     position: relative;
     background-color: #f0f0f0;
     padding: 10px;
-    margin: 5px;
+    margin: 0px;
     cursor: grab;
   }
 
@@ -158,6 +158,25 @@ body {
     z-index: 9999;
   }
 
+  .lekett-element-container
+  {
+    position: relative;
+  }
+
+  .lekett-block-container
+  {
+    position: relative;
+  }
+
+  .lekett-text-container
+  {
+    position: relative;
+  }
+
+  .lekett-img-container
+  {
+    position: relative;
+  }
 
   /* (A) LIST STYLES */
   .slist {

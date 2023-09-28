@@ -88,6 +88,7 @@ const SortableContainer = () => {
         id: elementId, 
         classList: clonedElement.classList.value, 
         style: clonedElement.style.cssText,
+        media : clonedElement.getAttribute("src") || null,
         children : []
       }
 
@@ -108,7 +109,7 @@ const SortableContainer = () => {
       clonedElement.setAttribute('draggable', 'false');
       clonedElement.classList.add('sortable-item');
 
-      var newElement = createItem("div", clonedElement);
+      var newElement = createItem(clonedElement.nodeName.toLowerCase(), clonedElement);
 
       setSortableItems((prevItems) => [...prevItems, newElement]);
 
@@ -282,7 +283,7 @@ const SortableContainer = () => {
         clonedElement.setAttribute('draggable', 'false');
         clonedElement.classList.add('sortable-item');
   
-        var newElement = createItem("div", clonedElement);
+        var newElement = createItem(clonedElement.nodeName.toLowerCase(), clonedElement);
 
         var itemsListAfterPlacing = placeItemFromItemPath(newSortableItems, item, newElement, sortItemActionType);
   
@@ -304,7 +305,8 @@ const SortableContainer = () => {
   const handleResizeMouseDown = (e:any, item:any) => {
     e.stopPropagation();
     e.preventDefault();
-    var element = e.target.parentNode;
+    var elementParent = e.target.parentNode;
+    var element = e.target.parentNode.firstChild;
 
     const initResize = (e : any) => {
       e.stopPropagation();
@@ -318,6 +320,9 @@ const SortableContainer = () => {
       e.preventDefault();
       element.style.width = (e.clientX - element.getBoundingClientRect().left - 20) + 'px';
       element.style.height = (e.clientY - element.getBoundingClientRect().top - 20) + 'px';
+
+      elementParent.style.width = (e.clientX - elementParent.getBoundingClientRect().left - 20) + 'px';
+      elementParent.style.height = (e.clientY - elementParent.getBoundingClientRect().top - 20) + 'px';
     }
 
     const stopResize = (e : any) => {
@@ -566,33 +571,57 @@ const SortableContainer = () => {
     return _arr;
 
   }
+  const isTypeElement = (_tag:string, _tags : string[]) =>{
+    var tags = _tags;
+    return tags.includes(_tag);
+  }
+
+  const isTextElement = (_tag:string) =>{
+    return isTypeElement(_tag, ["p"])    
+  }
+
+  const isBlockElement = (_tag:string) =>{
+
+    return isTypeElement(_tag, ["div","p"])    
+  }
+
+  const isMediaElement = (_tag:string) =>{
+    return isTypeElement(_tag, ["img"])    
+  }
 
   // END UTILITIES --------------------------------------------
 
 
-  const sortableRenderer = (item : any, index : number) =>{
+  const sortableRendererBlock = (item : any, index : number) =>{
 
       return (
-        <div
-            id={item.id}
-            key={index}
-            className={item.classList}
-            style={setStyle(item.style)}
-            draggable="true"
-            onMouseDown={(e) => handleSortItemMouseDown(e, index)}
-            onDragStart={(e) => handleSortItemDragStart(e, index, item)}
-            onDragOver={(e) => handleSortItemDragOver(e, item.id)}
-            onDragEnter={handleSortItemDragEnter}
-            onDragLeave={handleSortItemDragLeave}
-            onDrop={(e) => handleSortItemDrop(e, index, item)}
+        <div className='lekett-element-container lekett-block-container'>
 
-          >
+          <item.tag
+              id={item.id}
+              key={index}
+              className={item.classList}
+              style={setStyle(item.style)}
+              draggable="true"
+              contentEditable={isTextElement(item.tag)}
+              onMouseDown={(e: any) => handleSortItemMouseDown(e, index)}
+              onDragStart={(e: any) => handleSortItemDragStart(e, index, item)}
+              onDragOver={(e: any) => handleSortItemDragOver(e, item.id)}
+              onDragEnter={handleSortItemDragEnter}
+              onDragLeave={handleSortItemDragLeave}
+              onDrop={(e: any) => handleSortItemDrop(e, index, item)}
 
-            {item.id}
+            >
 
-            {item.children.map((_item : any, _index : number) => (
-              sortableRenderer(_item, _index)
-            ))}
+              {isTextElement(item.tag) &&
+              'Text content'}
+
+              {item.children.map((_item : any, _index : number) => (
+                sortableRendererBlock(_item, _index)
+              ))}
+
+
+            </item.tag>
 
             <div className="resizable-handler" onMouseDown={(e) => handleResizeMouseDown(e, item)} ></div>
 
@@ -601,6 +630,33 @@ const SortableContainer = () => {
 
   }
 
+  
+  const sortableRendererMedia = (item : any, index : number) =>{
+
+    return (
+        <div className='lekett-element-container lekett-img-container'>
+          <item.tag
+              id={item.id}
+              key={index}
+              src={item.media}
+              className={item.classList}
+              style={setStyle(item.style)}
+              draggable="true"
+              contentEditable={isTextElement(item.tag)}
+              onMouseDown={(e: any) => handleSortItemMouseDown(e, index)}
+              onDragStart={(e: any) => handleSortItemDragStart(e, index, item)}
+              onDragOver={(e: any) => handleSortItemDragOver(e, item.id)}
+              onDragEnter={handleSortItemDragEnter}
+              onDragLeave={handleSortItemDragLeave}
+              onDrop={(e: any) => handleSortItemDrop(e, index, item)}
+
+            />
+          
+        </div>
+       
+    )
+
+}
   return (
     <div className="block">
       <div className="sortable-container" ref={sortableContainerRef} id="sortable-container"
@@ -609,9 +665,14 @@ const SortableContainer = () => {
         onDragEnter={handleFrameDragEnter}
         
         >
-        {sortableItems.map((item, index) => (
-          sortableRenderer(item, index)
-        ))}
+        {sortableItems.map((item, index) => { 
+          if(isBlockElement(item.tag))
+            return (sortableRendererBlock(item, index))
+
+          if(isMediaElement(item.tag))
+            return (sortableRendererMedia(item, index))
+
+        })}
       </div>
     </div>
   );

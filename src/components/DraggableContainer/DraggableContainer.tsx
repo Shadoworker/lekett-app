@@ -19,11 +19,11 @@ const DraggableContainer = () => {
         <h6>Items</h6>
         <div className="draggable-container">
           <div id="draggable-item-1" className="draggable-item" draggable="true" onDragStart={handleItemDragStart} onDragEnd={handleItemDragEnd}>
-            Element 1
           </div>
-          <div id="draggable-item-2" className="draggable-item draggable2" draggable="true" onDragStart={handleItemDragStart} onDragEnd={handleItemDragEnd}>
-            Element 2
-          </div>
+          <p id="draggable-item-2" className="draggable-item draggable2" draggable="true" onDragStart={handleItemDragStart} onDragEnd={handleItemDragEnd}>
+            Text content
+          </p>
+          <img src={require('./../../assets/images/img_placeholder.jpg')} style={{width:'100%', padding:0}} id="draggable-item-3" className="draggable-item" draggable="true" onDragStart={handleItemDragStart} onDragEnd={handleItemDragEnd} />
           {/* Add more draggable items here */}
         </div>
         <div className="drag-preview" ref={dragPreviewRef}></div>

@@ -19,18 +19,7 @@ const ItemsBlock = () => {
     return (
 
         <div className='items-block'>
-            {/* <div className="item">
-                <FontAwesomeIcon icon={faFont} />
-                <span>Text</span>
-            </div>
-            <div className="item">
-                <FontAwesomeIcon icon={faBox} />
-                <span>Box</span>
-            </div>
-            <div className="item">
-                <FontAwesomeIcon icon={faImage} />
-                <span>Img</span>
-            </div> */}
+          
             <DraggableContainer />
 
         </div>
