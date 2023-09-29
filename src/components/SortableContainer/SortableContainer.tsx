@@ -627,9 +627,15 @@ const SortableContainer = () => {
               {isTextElement(item.tag) &&
               'Text content'}
 
-              {item.children.map((_item : any, _index : number) => (
-                sortableRendererBlock(_item, _index)
-              ))}
+              {item.children.map((_item : any, _index : number) => {
+                
+                if(isBlockElement(_item.tag))
+                  return (sortableRendererBlock(_item, index))
+    
+                if(isMediaElement(_item.tag))
+                  return (sortableRendererMedia(_item, index))
+      
+              })}
 
 
             </item.tag>
