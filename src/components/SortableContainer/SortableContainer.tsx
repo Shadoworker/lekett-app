@@ -308,6 +308,12 @@ const SortableContainer = () => {
     var elementParent = e.target.parentNode;
     var element = e.target.parentNode.firstChild;
 
+    var elementPaddingX = parseFloat(window.getComputedStyle(element, null).getPropertyValue("padding-left")) +
+                          parseFloat(window.getComputedStyle(element, null).getPropertyValue("padding-right"));
+
+    var elementPaddingY = parseFloat(window.getComputedStyle(element, null).getPropertyValue("padding-top")) +
+                          parseFloat(window.getComputedStyle(element, null).getPropertyValue("padding-bottom"));
+
     const initResize = (e : any) => {
       e.stopPropagation();
       e.preventDefault();
@@ -318,11 +324,16 @@ const SortableContainer = () => {
     const Resize = (e : any) => {
       e.stopPropagation();
       e.preventDefault();
-      element.style.width = (e.clientX - element.getBoundingClientRect().left - 20) + 'px';
-      element.style.height = (e.clientY - element.getBoundingClientRect().top - 20) + 'px';
+      
+      var newWidth = (e.clientX - elementParent.getBoundingClientRect().left - 0);
+      var newHeight = (e.clientY - elementParent.getBoundingClientRect().top - 0);
 
-      elementParent.style.width = (e.clientX - elementParent.getBoundingClientRect().left - 20) + 'px';
-      elementParent.style.height = (e.clientY - elementParent.getBoundingClientRect().top - 20) + 'px';
+      elementParent.style.width = (newWidth) + 'px';
+      elementParent.style.height = (newHeight) + 'px';
+      
+      element.style.width = (newWidth - elementPaddingX) + 'px';
+      element.style.height = (newHeight - elementPaddingY) + 'px';
+
     }
 
     const stopResize = (e : any) => {
@@ -651,6 +662,8 @@ const SortableContainer = () => {
               onDrop={(e: any) => handleSortItemDrop(e, index, item)}
 
             />
+          
+            <div className="resizable-handler" onMouseDown={(e) => handleResizeMouseDown(e, item)} ></div>
           
         </div>
        
