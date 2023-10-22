@@ -81,13 +81,17 @@ const SortableContainer = () => {
 
   const createItem = (_type:string, clonedElement:any) =>{
 
+    var style = clonedElement.style;
+    style.width = '100px'
+    style.height = '100px'
+
     var elementId = `sortable-item-${sortableItemsCounter + 1}`;
     var newElement = {
         tag : clonedElement.nodeName.toLowerCase(),
         path :"#/"+elementId, // The element path
         id: elementId, 
         classList: clonedElement.classList.value, 
-        style: clonedElement.style.cssText,
+        style: style.cssText,
         media : clonedElement.getAttribute("src") || null,
         children : []
       }
@@ -630,17 +634,17 @@ const SortableContainer = () => {
               {item.children.map((_item : any, _index : number) => {
                 
                 if(isBlockElement(_item.tag))
-                  return (sortableRendererBlock(_item, index))
+                  return (sortableRendererBlock(_item, _index))
     
                 if(isMediaElement(_item.tag))
-                  return (sortableRendererMedia(_item, index))
+                  return (sortableRendererMedia(_item, _index))
       
               })}
 
 
             </item.tag>
 
-            <div className="resizable-handler" onMouseDown={(e) => handleResizeMouseDown(e, item)} ></div>
+            <div key={'handler_'+index} className="resizable-handler" onMouseDown={(e) => handleResizeMouseDown(e, item)} ></div>
 
           </div>
       )
