@@ -218,11 +218,11 @@ const SortableContainer = () => {
 
       handleBox.style.display = 'block';
       handleBox.style.position = 'absolute';
-      handleBox.style.top = '0px';
-      handleBox.style.left = '0px';
+      handleBox.style.top = position.top+'px';
+      handleBox.style.left = position.left+'px';
       handleBox.style.width = width+'px';
       handleBox.style.height = height+'px';
-      handleBox.style.transform = transform;
+      // handleBox.style.transform = transform;
 
       var c = 3;
       let handlesLocs = [
