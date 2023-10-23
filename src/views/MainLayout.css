@@ -104,7 +104,7 @@ body {
 
   .draggable-item {
     background-color: #f0f0f0;
-    min-height: 30px;
+    height: 30px;
     /* padding: 10px; */
     /* margin: 5px; */
     border: solid 1px gray;
@@ -114,6 +114,7 @@ body {
   .sortable-item {
     position: relative;
     background-color: #f0f0f0;
+    border: solid 1px gray;
     /* padding: 10px; */
     width: 100%;
     height: 100%;
@@ -206,6 +207,26 @@ body {
 
   .slist .sortable-item.active.hovered-bottom {
     border-bottom: dashed 2px rgb(81, 8, 136);
+  }
+
+  .handleBox{
+
+    position: absolute;
+    border: dashed 1px rgb(104, 2, 172);
+    pointer-events: none;
+  }
+
+  .handleRect {
+
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background-color: #510888;
+    
+    /* outline: solid 1px #510888; */
+    pointer-events: none;
+    top: 0px;
+    left: 0px;
   }
 
   .resizable-handler {

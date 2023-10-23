@@ -1,6 +1,7 @@
 import { element } from 'prop-types';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, DOMElement } from 'react';
 
+import interact from 'interactjs';
 
 const SortItemActionType = {
 
@@ -54,9 +55,60 @@ const SortableContainer = () => {
         
     //     )
 
+
     
   }, []);
 
+
+
+  const initResizable = (_ref:string) =>{ // _ref : #id | .class
+
+
+      interact(_ref)
+      .resizable({
+        // resize from all edges and corners
+        edges: { left: true, right: true, bottom: true, top: true },
+    
+        listeners: {
+          move (event) {
+            var target = event.target
+            var x = (parseFloat(target.getAttribute('data-x')) || 0)
+            var y = (parseFloat(target.getAttribute('data-y')) || 0)
+    
+            // update the element's style
+            target.style.width = event.rect.width + 'px'
+            target.style.height = event.rect.height + 'px'
+    
+            // translate when resizing from top or left edges
+            x += event.deltaRect.left
+            y += event.deltaRect.top
+    
+            target.style.transform = 'translate(' + x + 'px,' + y + 'px)'
+    
+            target.setAttribute('data-x', x)
+            target.setAttribute('data-y', y)
+            // target.textContent = Math.round(event.rect.width) + '\u00D7' + Math.round(event.rect.height)
+
+            updateHandles(target);
+          }
+        },
+        modifiers: [
+          // keep the edges inside the parent
+          interact.modifiers.restrictEdges({
+            outer: 'parent'
+          }),
+    
+          // minimum size
+          interact.modifiers.restrictSize({
+            min: { width: 10, height: 10 }
+          })
+        ],
+    
+        inertia: true
+      })
+
+
+  }
 
   // DRAG N DROP ZONE ---------------------------------------------
 
@@ -75,6 +127,13 @@ const SortableContainer = () => {
 
   }
 
+  const handleFrameMouseDown = (e : any) => {
+    e.preventDefault();
+
+    var handleBox : any = document.querySelector(".handleBox");
+    handleBox.style.display = 'none';
+  };
+
   const handleFrameDragOver = (e : any) => {
     e.preventDefault();
   };
@@ -90,13 +149,15 @@ const SortableContainer = () => {
         tag : clonedElement.nodeName.toLowerCase(),
         path :"#/"+elementId, // The element path
         id: elementId, 
-        classList: clonedElement.classList.value, 
+        classList: 'sortable-item', 
         style: style.cssText,
         media : clonedElement.getAttribute("src") || null,
         children : []
       }
 
     setSortableItemsCounter((prev) => prev + 1);
+
+    initResizable('#'+elementId)
 
     return newElement;
 
@@ -131,10 +192,60 @@ const SortableContainer = () => {
 
   const handleSortItemMouseDown = (e:any, index:number) => {
 
-    var element = e.target;    
+    e.preventDefault();
+    e.stopPropagation();
+
+    var element = e.target;   
+    // console.log("selected") 
+    updateHandles(element)
   };
 
+  const updateHandles = (element:any) =>{
 
+      var parentRect = element.parentElement.getBoundingClientRect();
+      var rect = element.getBoundingClientRect();
+      
+      var position = {
+          top: rect.top - parentRect.top,
+          left: rect.left - parentRect.left
+      };
+
+      var width = parseFloat(element.style.width);
+      var height = parseFloat(element.style.height);
+      var transform = element.style.transform;
+      
+      var handleBox : any = document.querySelector(".handleBox");
+
+      handleBox.style.display = 'block';
+      handleBox.style.position = 'absolute';
+      handleBox.style.top = '0px';
+      handleBox.style.left = '0px';
+      handleBox.style.width = width+'px';
+      handleBox.style.height = height+'px';
+      handleBox.style.transform = transform;
+
+      var c = 3;
+      let handlesLocs = [
+        [0-c, 0-c],
+        [(width / 2)-c, 0-c],
+        [width-c, 0-c],
+        [0-c, (height / 2)-c],
+        [width-c, (height / 2)-c],
+        [0-c, height-c],
+        [(width / 2)-c, height-c],
+        [width-c, height-c]
+      ];
+
+      for (let i = 0; i < handleBox.children.length; i++) {
+
+        const handle = handleBox.children[i];
+        handle.style.left = handlesLocs[i][0]+'px';
+        handle.style.top = handlesLocs[i][1]+'px';
+
+      }
+
+
+  }
   // SORT ZONE ---------------------------------------
 
   const handleSortItemDragStart = (e:any, index : number, item:any) => {
@@ -610,7 +721,7 @@ const SortableContainer = () => {
   const sortableRendererBlock = (item : any, index : number) =>{
 
       return (
-        <div className='lekett-element-container lekett-block-container'>
+        // <div className='lekett-element-container lekett-block-container'>
 
           <item.tag
               id={item.id}
@@ -644,9 +755,9 @@ const SortableContainer = () => {
 
             </item.tag>
 
-            <div key={'handler_'+index} className="resizable-handler" onMouseDown={(e) => handleResizeMouseDown(e, item)} ></div>
+            // <div key={'handler_'+index} className="resizable-handler" onMouseDown={(e) => handleResizeMouseDown(e, item)} ></div>
 
-          </div>
+          // </div>
       )
 
   }
@@ -655,7 +766,7 @@ const SortableContainer = () => {
   const sortableRendererMedia = (item : any, index : number) =>{
 
     return (
-        <div className='lekett-element-container lekett-img-container'>
+        // <div className='lekett-element-container lekett-img-container'>
           <item.tag
               id={item.id}
               key={index}
@@ -673,9 +784,9 @@ const SortableContainer = () => {
 
             />
           
-            <div className="resizable-handler" onMouseDown={(e) => handleResizeMouseDown(e, item)} ></div>
+            // <div className="resizable-handler" onMouseDown={(e) => handleResizeMouseDown(e, item)} ></div>
           
-        </div>
+        // </div>
        
     )
 
@@ -683,6 +794,7 @@ const SortableContainer = () => {
   return (
     <div className="block">
       <div className="sortable-container" ref={sortableContainerRef} id="sortable-container"
+        onMouseDown={handleFrameMouseDown}
         onDragOver={handleFrameDragOver}
         onDrop={handleFrameDrop}
         onDragEnter={handleFrameDragEnter}
@@ -696,6 +808,20 @@ const SortableContainer = () => {
             return (sortableRendererMedia(item, index))
 
         })}
+
+        <div className='handleBox'>
+          <div className='handleRect hr-top-left'></div>
+          <div className='handleRect hr-top-middle'></div>
+          <div className='handleRect hr-top-right'></div>
+
+          <div className='handleRect hr-left'></div>
+          <div className='handleRect hr-right'></div>
+
+          <div className='handleRect hr-bottom-left'></div>
+          <div className='handleRect hr-bottom-middle'></div>
+          <div className='handleRect hr-bottom-right'></div>
+        </div>
+
       </div>
     </div>
   );
