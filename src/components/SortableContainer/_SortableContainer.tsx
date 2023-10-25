@@ -1,174 +1,91 @@
-// import { element } from 'prop-types';
-// import React, { useState, useRef, useEffect, DOMElement } from 'react';
+import { element } from 'prop-types';
+import React, { useState, useRef, useEffect, DOMElement } from 'react';
 
-// import interact from 'interactjs';
-
-// const SortItemActionType = {
-
-//   PREV : -1,
-//   INSIDE : 0,
-//   NEXT : 1,
-//   NONE : 2 
-
-// }
-
-// const SortableContainer = () => {
-//   const [sortableItems, setSortableItems] = useState<any[]>([]);
-//   const [sortableItemsCounter, setSortableItemsCounter] = useState(0);
-//   const [hoveringIndex, setHoveringIndex] = useState<any>(null);
-//   const [hoveringItem, setHoveringItem] = useState(null);
-//   const [sortItemActionType, setSortItemActionType] = useState(SortItemActionType.NONE);
-
-//   const sortableContainerRef = useRef(null);
-
- 
-//   useEffect(() => {
-    
- 
-//     // let arr = [
-//     //   {id:"1", path:"#/1", children : []},
-//     //   {id:"2", path:"#/2", 
-//     //     children : 
-//     //     [
-//     //       {id:"3", path:"#/2/3", children : [
-//     //         {id:"5", path:"#/2/3/5", children : []}
-//     //       ]},
-//     //     ]
-//     //   },
-//     // ];
-
-//     // var _arr = [...arr];
-//     // console.log(getItemByPath(_arr, '#/2/3'))
-
-//     // removeItemFromPath(arr, {id:"5", path:"#/2/3/5", children : []})
-
-//     // placeItemFromItemPath(arr, 
-//     //   {id:"2", path:"#/2", 
-//     //     children : 
-//     //     [
-//     //       {id:"3", path:"#/2/3", children : [
-//     //         {id:"5", path:"#/2/3/5", children : []}
-//     //       ]},
-//     //     ]
-//     //   }, 
-        
-//     //   {id:"5", path:"#/2/3/5", children : []},
-//     //   false 
-        
-//     //     )
-
-
-    
-//   }, []);
-
-
-
- 
-//   return (
-//     <div className="block">
-//       <div className="sortable-container" ref={sortableContainerRef} id="sortable-container"
-//         onMouseDown={handleFrameMouseDown}
-//         onDragOver={handleFrameDragOver}
-//         onDrop={handleFrameDrop}
-//         onDragEnter={handleFrameDragEnter}
-        
-//         >
-//         {sortableItems.map((item, index) => { 
-//           if(isBlockElement(item.tag))
-//             return (sortableRendererBlock(item, index))
-
-//           if(isMediaElement(item.tag))
-//             return (sortableRendererMedia(item, index))
-
-//         })}
-
-//         <div className='handleBox' style={{display:'none'}}>
-//           <div className='handleRect hr-top-left'></div>
-//           <div className='handleRect hr-top-middle'></div>
-//           <div className='handleRect hr-top-right'></div>
-
-//           <div className='handleRect hr-left'></div>
-//           <div className='handleRect hr-right'></div>
-
-//           <div className='handleRect hr-bottom-left'></div>
-//           <div className='handleRect hr-bottom-middle'></div>
-//           <div className='handleRect hr-bottom-right'></div>
-//         </div>
-
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SortableContainer;
-
-import React, { Component, RefObject } from 'react';
 import interact from 'interactjs';
 
-interface SortableItem {
-  id: string;
-  path: string;
-  tag: string;
-  classList: string;
-  style: string;
-  media?: string;
-  children: SortableItem[];
-}
-
-interface State {
-  sortableItems: SortableItem[];
-  sortableItemsCounter: number;
-  hoveringIndex: number | null;
-  hoveringItem: SortableItem | null;
-  sortItemActionType: number;
-}
-
 const SortItemActionType = {
-  PREV: -1,
-  INSIDE: 0,
-  NEXT: 1,
-  NONE: 2,
-};
 
-class SortableContainer extends Component<{}, State> {
-  private sortableContainerRef: RefObject<HTMLDivElement>;
+  PREV : -1,
+  INSIDE : 0,
+  NEXT : 1,
+  NONE : 2 
 
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      sortableItems: [],
-      sortableItemsCounter: 0,
-      hoveringIndex: null,
-      hoveringItem: null,
-      sortItemActionType: SortItemActionType.NONE,
-    };
-    this.sortableContainerRef = React.createRef();
-  }
+}
+
+const _SortableContainer = () => {
+  const [sortableItems, setSortableItems] = useState<any[]>([]);
+  const [sortableItemsCounter, setSortableItemsCounter] = useState(0);
+  const [hoveringIndex, setHoveringIndex] = useState<any>(null);
+  const [hoveringItem, setHoveringItem] = useState(null);
+  const [sortItemActionType, setSortItemActionType] = useState(SortItemActionType.NONE);
+
+  const sortableContainerRef = useRef(null);
+
+ 
+  useEffect(() => {
+    
+ 
+    // let arr = [
+    //   {id:"1", path:"#/1", children : []},
+    //   {id:"2", path:"#/2", 
+    //     children : 
+    //     [
+    //       {id:"3", path:"#/2/3", children : [
+    //         {id:"5", path:"#/2/3/5", children : []}
+    //       ]},
+    //     ]
+    //   },
+    // ];
+
+    // var _arr = [...arr];
+    // console.log(getItemByPath(_arr, '#/2/3'))
+
+    // removeItemFromPath(arr, {id:"5", path:"#/2/3/5", children : []})
+
+    // placeItemFromItemPath(arr, 
+    //   {id:"2", path:"#/2", 
+    //     children : 
+    //     [
+    //       {id:"3", path:"#/2/3", children : [
+    //         {id:"5", path:"#/2/3/5", children : []}
+    //       ]},
+    //     ]
+    //   }, 
+        
+    //   {id:"5", path:"#/2/3/5", children : []},
+    //   false 
+        
+    //     )
 
 
-initResizable = (_ref:string) =>{ // _ref : #id | .class
+    
+  }, []);
+
+
+
+  const initResizable = (_ref:string) =>{ // _ref : #id | .class
 
       interact(_ref)
       .resizable({
         // resize from all edges and corners
         edges: { left: true, right: true, bottom: true, top: true },
-  
+    
         // listeners: {
         //   move : function(event) {
         //     var target = event.target
         //     var x = (parseFloat(target.getAttribute('data-x')) || 0)
         //     var y = (parseFloat(target.getAttribute('data-y')) || 0)
-  
+    
         //     // update the element's style
         //     target.style.width = event.rect.width + 'px'
         //     target.style.height = event.rect.height + 'px'
-  
+    
         //     // translate when resizing from top or left edges
         //     x += event.deltaRect.left
         //     y += event.deltaRect.top
-  
+    
         //     target.style.transform = 'translate(' + x + 'px,' + y + 'px)'
-  
+    
         //     target.setAttribute('data-x', x)
         //     target.setAttribute('data-y', y)
         //     // target.textContent = Math.round(event.rect.width) + '\u00D7' + Math.round(event.rect.height)
@@ -184,7 +101,7 @@ initResizable = (_ref:string) =>{ // _ref : #id | .class
         //       var item = getItemByPath(items, element.getAttribute('path'));
         //       // Replace item
         //       var newStyle = element.style.cssText;
-            
+              
         //       var updatedStyleItems = updateItemStyleFromPath(items, item, newStyle);
         //       setSortableItems(updatedStyleItems);
         //   }
@@ -194,53 +111,51 @@ initResizable = (_ref:string) =>{ // _ref : #id | .class
           interact.modifiers.restrictEdges({
             outer: 'parent'
           }),
-  
+    
           // minimum size
           interact.modifiers.restrictSize({
             min: { width: 10, height: 10 }
           })
         ],
-  
+    
         inertia: true
-      }).on('resizemove', (event)=>{
+      }).on('resizemove', function(event){
 
             var target = event.target
             var x = (parseFloat(target.getAttribute('data-x')) || 0)
             var y = (parseFloat(target.getAttribute('data-y')) || 0)
-  
+    
             // update the element's style
             target.style.width = event.rect.width + 'px'
             target.style.height = event.rect.height + 'px'
-  
+    
             // translate when resizing from top or left edges
             x += event.deltaRect.left
             y += event.deltaRect.top
-  
+    
             target.style.transform = 'translate(' + x + 'px,' + y + 'px)'
-  
+    
             target.setAttribute('data-x', x)
             target.setAttribute('data-y', y)
             // target.textContent = Math.round(event.rect.width) + '\u00D7' + Math.round(event.rect.height)
 
-            this.updateHandles(target);
+            updateHandles(target);
 
-      }).on('resizeend', (event)=>{
+      }).on('resizeend', function(event){
 
           var target = event.target;
-          var items = [...this.state.sortableItems];
+          var items = [...sortableItems];
 
           var elementPath = target.getAttribute("path");
 
-          var item = this.getItemByPath(items, elementPath);
-         
+          var item = getItemByPath(items, elementPath);
+          console.log(elementPath)
+          console.log(item)
           // Replace item
           var newStyle = target.style.cssText;
-        
-          var updatedStyleItems = this.updateItemStyleFromPath(items, item, newStyle);
-
-          this.setState((prevState) => ({
-            sortableItems: updatedStyleItems
-          }));
+          
+          // var updatedStyleItems = updateItemStyleFromPath(items, item, newStyle);
+          // setSortableItems(updatedStyleItems);
       })
 
 
@@ -249,38 +164,38 @@ initResizable = (_ref:string) =>{ // _ref : #id | .class
   // DRAG N DROP ZONE ---------------------------------------------
 
 
-handleFrameDragEnter = (e:any) =>{
+  const handleFrameDragEnter = (e:any) =>{
 
-    var container = this.sortableContainerRef.current; // re-check
+    var container = sortableContainerRef.current; // re-check
     //@ts-ignore
     container.classList.add("slist")
 
     //@ts-ignore
-    let items : any[] = container.querySelectorAll(".sortable-item");
+    let items = container.querySelectorAll(".sortable-item");
     for (let it of items) {
        it.classList.add("hint");
     }
 
   }
 
-handleFrameMouseDown = (e : any) => {
+  const handleFrameMouseDown = (e : any) => {
     e.preventDefault();
 
     var handleBox : any = document.querySelector(".handleBox");
     handleBox.style.display = 'none';
   };
 
-handleFrameDragOver = (e : any) => {
+  const handleFrameDragOver = (e : any) => {
     e.preventDefault();
   };
 
-createItem = (_type:string, clonedElement:any) =>{
+  const createItem = (_type:string, clonedElement:any) =>{
 
     var style = clonedElement.style;
     style.width = '100px'
     style.height = '100px'
 
-    var elementId = `sortable-item-${this.state.sortableItemsCounter + 1}`;
+    var elementId = `sortable-item-${sortableItemsCounter + 1}`;
     var newElement = {
         tag : clonedElement.nodeName.toLowerCase(),
         path :"#/"+elementId, // The element path
@@ -290,20 +205,18 @@ createItem = (_type:string, clonedElement:any) =>{
         media : clonedElement.getAttribute("src") || null,
         children : []
       }
-  
- 
-    this.setState((prevState) => ({
-      sortableItemsCounter: prevState.sortableItemsCounter + 1,
-    }));
+    
 
-    this.initResizable('#'+elementId)
+    setSortableItemsCounter((prev) => prev + 1);
+
+    initResizable('#'+elementId)
 
     return newElement;
 
   } 
 
-handleFrameDrop = (e : any) => {
-    
+  const handleFrameDrop = (e : any) => {
+      
     e.preventDefault();
 
     const data = e.dataTransfer.getData('text/plain');
@@ -314,18 +227,15 @@ handleFrameDrop = (e : any) => {
       clonedElement.setAttribute('draggable', 'false');
       clonedElement.classList.add('sortable-item');
 
-      var newElement = this.createItem(clonedElement.nodeName.toLowerCase(), clonedElement);
+      var newElement = createItem(clonedElement.nodeName.toLowerCase(), clonedElement);
 
-      this.setState((prevState) => ({
-        sortableItems: [...prevState.sortableItems, newElement],
-      }));
-
+      setSortableItems((prevItems) => [...prevItems, newElement]);
 
     }
 
-  
+    
     // sorting styling
-    this.removeHintStyles();
+    removeHintStyles();
 
   };
 
@@ -333,21 +243,21 @@ handleFrameDrop = (e : any) => {
   // END DRAG N DROP ZONE ---------------------------------------------
 
 
-handleSortItemMouseDown = (e:any, index:number) => {
+  const handleSortItemMouseDown = (e:any, index:number) => {
 
     // e.preventDefault();
     e.stopPropagation();
 
     var element = e.target;   
     // console.log("selected") 
-    this.updateHandles(element)
+    updateHandles(element)
   };
 
-updateHandles = (element:any) =>{
+  const updateHandles = (element:any) =>{
 
       var parentRect = element.parentElement.getBoundingClientRect();
       var rect = element.getBoundingClientRect();
-    
+      
       var position = {
           top: rect.top - parentRect.top,
           left: rect.left - parentRect.left
@@ -356,7 +266,7 @@ updateHandles = (element:any) =>{
       var width = parseFloat(element.style.width);
       var height = parseFloat(element.style.height);
       var transform = element.style.transform;
-    
+      
       var handleBox : any = document.querySelector(".handleBox");
 
       handleBox.style.display = 'block';
@@ -391,20 +301,14 @@ updateHandles = (element:any) =>{
   }
   // SORT ZONE ---------------------------------------
 
-handleSortItemDragStart = (e:any, index : number, item:any) => {
+  const handleSortItemDragStart = (e:any, index : number, item:any) => {
     e.stopPropagation();
     e.dataTransfer.setData('text/plain', e.target.id);
     var element = e.target;
-    var container : any = this.sortableContainerRef.current; // re-check
+    var container : any = sortableContainerRef.current; // re-check
     container.classList.add("slist")
-    
-    this.setState((prevState) => ({
-      hoveringIndex: index,
-    }));
-
-    this.setState((prevState) => ({
-      hoveringItem: item,
-    }));
+    setHoveringIndex(index);
+    setHoveringItem(item);
 
     let items = container.querySelectorAll(".sortable-item"), current = element;
     for (let it of items) {
@@ -413,18 +317,18 @@ handleSortItemDragStart = (e:any, index : number, item:any) => {
 
   };
 
-handleSortItemDragOver = (e:any, id:string) => {
+  const handleSortItemDragOver = (e:any, id:string) => {
     e.preventDefault();
-    this.handleSortItemActionType(e, id);
+    handleSortItemActionType(e, id);
   };
 
-handleSortItemActionType = (e:any, id:string) => {
-  
+  const handleSortItemActionType = (e:any, id:string) => {
+    
     const hoveredElement = e.target;
     const hoveredElementBCR = hoveredElement.getBoundingClientRect();
-  
+    
     const mouseY = e.clientY;
-
+  
     // Calculate the center and the third section of the div
     const partial = (hoveredElementBCR.height / 4);
     const center = hoveredElementBCR.top + partial;
@@ -436,11 +340,8 @@ handleSortItemActionType = (e:any, id:string) => {
       {
         if(!hoveredElement.classList.contains("hovered-top"))
             hoveredElement.classList.add("hovered-top");
-        
-            this.setState((prevState) => ({
-              sortItemActionType: SortItemActionType.PREV,
-            }));
-         
+          
+          setSortItemActionType(SortItemActionType.PREV);
 
           hoveredElement.classList.remove("hovered-bottom");
       } 
@@ -448,10 +349,8 @@ handleSortItemActionType = (e:any, id:string) => {
       {
         if(!hoveredElement.classList.contains("hovered-bottom"))
             hoveredElement.classList.add("hovered-bottom");
- 
-          this.setState((prevState) => ({
-            sortItemActionType: SortItemActionType.NEXT,
-          }));
+
+          setSortItemActionType(SortItemActionType.NEXT);
 
           hoveredElement.classList.remove("hovered-top");
 
@@ -460,9 +359,7 @@ handleSortItemActionType = (e:any, id:string) => {
         hoveredElement.classList.remove("hovered-top");
         hoveredElement.classList.remove("hovered-bottom");
 
-        this.setState((prevState) => ({
-          sortItemActionType: SortItemActionType.INSIDE,
-        }));
+        setSortItemActionType(SortItemActionType.INSIDE);
 
       }
     // }
@@ -473,87 +370,72 @@ handleSortItemActionType = (e:any, id:string) => {
 
   }
 
-  handleSortItemDragEnter = (e : any) => {
+  const handleSortItemDragEnter = (e : any) => {
     e.preventDefault();
     var element = e.target;
     // console.log(element.getAttribute("id"))
     element.classList.add("active");
   };
+  
 
-
-  handleSortItemDragLeave = (e : any) => {
+  const handleSortItemDragLeave = (e : any) => {
     e.preventDefault();
     var element = e.target;
 
     element.classList.remove("active"); 
     element.classList.remove("hovered-top");
     element.classList.remove("hovered-bottom");
+      
     
-  
   };
 
 
-  handleSortItemDrop = (e:any, index : number, item:any) => {
+  const handleSortItemDrop = (e:any, index : number, item:any) => {
     e.stopPropagation();
     e.preventDefault();
-  
-    var newSortableItems = [...this.state.sortableItems];
+    
+    var newSortableItems = [...sortableItems];
 
-    if (this.state.hoveringIndex != null && this.state.hoveringItem != item) // No already added item
+    if (hoveringIndex != null && hoveringItem != item) // No already added item
     { 
 
       // Get SortItemActionType
-      switch(this.state.sortItemActionType)
+      switch(sortItemActionType)
       {
         case SortItemActionType.PREV: // before the target
-          var itemsListAfterRemove = this.removeItemFromPath(this.state.sortableItems, this.state.hoveringItem);
-          var itemsListAfterPlacing = this.placeItemFromItemPath(itemsListAfterRemove, item, this.state.hoveringItem, this.state.sortItemActionType);
- 
-          this.setState((prevState) => ({
-            sortableItems: itemsListAfterPlacing
-          }));
-    
+          var itemsListAfterRemove = removeItemFromPath(sortableItems, hoveringItem);
+          var itemsListAfterPlacing = placeItemFromItemPath(itemsListAfterRemove, item, hoveringItem, sortItemActionType);
+
+          setSortableItems(itemsListAfterPlacing);
 
         break; 
 
         case SortItemActionType.NEXT: // after the target
-          var itemsListAfterRemove = this.removeItemFromPath(this.state.sortableItems, this.state.hoveringItem);
-          var itemsListAfterPlacing = this.placeItemFromItemPath(itemsListAfterRemove, item, this.state.hoveringItem, this.state.sortItemActionType);
- 
-          this.setState((prevState) => ({
-            sortableItems: itemsListAfterPlacing
-          }));
-    
+          var itemsListAfterRemove = removeItemFromPath(sortableItems, hoveringItem);
+          var itemsListAfterPlacing = placeItemFromItemPath(itemsListAfterRemove, item, hoveringItem, sortItemActionType);
+
+          setSortableItems(itemsListAfterPlacing);
 
         break; 
 
         case SortItemActionType.INSIDE: // INSIDE : as child
-          var itemsListAfterRemove = this.removeItemFromPath(this.state.sortableItems, this.state.hoveringItem);
-          var itemsListAfterPlacing = this.placeItemFromItemPath(itemsListAfterRemove, item, this.state.hoveringItem, this.state.sortItemActionType);
-         
-          this.setState((prevState) => ({
-            sortableItems: itemsListAfterPlacing
-          }));
-    
+          var itemsListAfterRemove = removeItemFromPath(sortableItems, hoveringItem);
+          var itemsListAfterPlacing = placeItemFromItemPath(itemsListAfterRemove, item, hoveringItem, sortItemActionType);
+          
+          setSortableItems(itemsListAfterPlacing);
 
         break; 
 
         default:
 
-          this.swapElements(newSortableItems, this.state.hoveringIndex, index);
-        
-          this.setState((prevState) => ({
-            sortableItems: newSortableItems
-          }));
+          swapElements(newSortableItems, hoveringIndex, index);
+          setSortableItems(newSortableItems);
     
-  
         break;
       }
- 
-      this.setState((prevState) => ({
-        hoveringIndex: null, hoveringItem : null
-      }));
- 
+
+      setHoveringIndex(null);
+      setHoveringItem(null);
 
 
     }
@@ -567,21 +449,19 @@ handleSortItemActionType = (e:any, id:string) => {
         const clonedElement : any = clonedElementData.cloneNode(true);
         clonedElement.setAttribute('draggable', 'false');
         clonedElement.classList.add('sortable-item');
+  
+        var newElement = createItem(clonedElement.nodeName.toLowerCase(), clonedElement);
 
-        var newElement = this.createItem(clonedElement.nodeName.toLowerCase(), clonedElement);
-
-        var itemsListAfterPlacing = this.placeItemFromItemPath(newSortableItems, item, newElement, this.state.sortItemActionType);
- 
-        this.setState((prevState) => ({
-          sortableItems: itemsListAfterPlacing
-        }));
+        var itemsListAfterPlacing = placeItemFromItemPath(newSortableItems, item, newElement, sortItemActionType);
+  
+        setSortableItems(itemsListAfterPlacing);
   
       }
     }
 
-  
+    
     // sorting styling
-    this.removeHintStyles();
+    removeHintStyles();
 
 
   };
@@ -589,14 +469,68 @@ handleSortItemActionType = (e:any, id:string) => {
   // END SORT ZONE -------------------------------------------
 
   // RESIZE ZONE ---------------------------------------------
+  const handleResizeMouseDown = (e:any, item:any) => {
+    e.stopPropagation();
+    e.preventDefault();
+    var elementParent = e.target.parentNode;
+    var element = e.target.parentNode.firstChild;
+
+    var elementPaddingX = parseFloat(window.getComputedStyle(element, null).getPropertyValue("padding-left")) +
+                          parseFloat(window.getComputedStyle(element, null).getPropertyValue("padding-right"));
+
+    var elementPaddingY = parseFloat(window.getComputedStyle(element, null).getPropertyValue("padding-top")) +
+                          parseFloat(window.getComputedStyle(element, null).getPropertyValue("padding-bottom"));
+
+    const initResize = (e : any) => {
+      e.stopPropagation();
+      e.preventDefault();
+      window.addEventListener('mousemove', Resize, false);
+      window.addEventListener('mouseup', stopResize, false);
+    }
+
+    const Resize = (e : any) => {
+      e.stopPropagation();
+      e.preventDefault();
+      
+      var newWidth = (e.clientX - elementParent.getBoundingClientRect().left - 0);
+      var newHeight = (e.clientY - elementParent.getBoundingClientRect().top - 0);
+
+      elementParent.style.width = (newWidth) + 'px';
+      elementParent.style.height = (newHeight) + 'px';
+      
+      element.style.width = (newWidth - elementPaddingX) + 'px';
+      element.style.height = (newHeight - elementPaddingY) + 'px';
+
+    }
+
+    const stopResize = (e : any) => {
+      e.stopPropagation();
+      e.preventDefault();
+
+      window.removeEventListener('mousemove', Resize, false);
+      window.removeEventListener('mouseup', stopResize, false);
+
+      // Replace item
+      var items = [...sortableItems];
+      var newStyle = element.style.cssText;
+       
+      var updatedStyleItems = updateItemStyleFromPath(items, item, newStyle);
+      setSortableItems(updatedStyleItems);
+    
+
+    }
+
+    initResize(e);
+
+  };
 
   // END RESIZE ZONE ------------------------------------
 
   // UTILITIES --------------------------------------------
 
-  removeHintStyles = () =>{
+  const removeHintStyles = () =>{
 
-    var container:any = this.sortableContainerRef.current; // re-check
+    var container:any = sortableContainerRef.current; // re-check
     let items = container.querySelectorAll(".sortable-item");
     for (let it of items) {
       it.classList.remove("hint")
@@ -604,11 +538,11 @@ handleSortItemActionType = (e:any, id:string) => {
     }
   }
 
-  swapElements = (_array:any[], index1:number, index2:number) => {
+  const swapElements = (_array:any[], index1:number, index2:number) => {
     _array[index1] = _array.splice(index2, 1, _array[index1])[0];
   };
 
-  convertCSSToReactStyles = (cssString:string) => {
+  const convertCSSToReactStyles = (cssString:string) => {
     const styleObject : any = {};
 
     // Split the CSS string by semicolon to get individual styles
@@ -633,22 +567,22 @@ handleSortItemActionType = (e:any, id:string) => {
     return styleObject;
   };
 
-  setStyle = (cssText:string) => {
+  const setStyle = (cssText:string) => {
 
-    var style = this.convertCSSToReactStyles(cssText)
+    var style = convertCSSToReactStyles(cssText)
     return style;
   }
 
 
-  updateItemStyleFromPath = (_arr:any[], item:any, style:string) =>{ 
+  const updateItemStyleFromPath = (_arr:any[], item:any, style:string) =>{ 
 
     var path = item.path;
     var nodes = path.split("/");
-  
+    
     var _sortableItems = [..._arr];
     var currentParent = _sortableItems;
     var nextParent = currentParent;
-  
+   
     for (let i = 1; i < nodes.length; i++) // dont consider the root (#/)
     { 
       const node = nodes[i];
@@ -662,10 +596,10 @@ handleSortItemActionType = (e:any, id:string) => {
       {
         nextParent = item.children;
       }
-    
+      
       // set new parent
       currentParent = nextParent;
-  
+    
     }
 
     // console.log(_sortableItems);
@@ -674,15 +608,15 @@ handleSortItemActionType = (e:any, id:string) => {
   }
 
   // @ Remove an item from its current path in order to move it elsewhere
- removeItemFromPath = (_arr:any[], item:any) =>{ 
+  const removeItemFromPath = (_arr:any[], item:any) =>{ 
 
     var path = item.path;
     var nodes = path.split("/");
-  
+    
     var _sortableItems = [..._arr];
     var currentParent = _sortableItems;
     var nextParent = currentParent;
-  
+   
     for (let i = 1; i < nodes.length; i++) // dont consider the root (#/)
     { 
       const node = nodes[i];
@@ -696,10 +630,10 @@ handleSortItemActionType = (e:any, id:string) => {
       {
         nextParent = item.children;
       }
-    
+      
       // set new parent
       currentParent = nextParent;
-  
+    
     }
 
     // console.log(_sortableItems);
@@ -707,7 +641,7 @@ handleSortItemActionType = (e:any, id:string) => {
 
   }
 
-  getParentPath = (itemPath:string) =>{
+  const getParentPath = (itemPath:string) =>{
 
     const lastSlashIndex = itemPath.lastIndexOf('/');
 
@@ -717,7 +651,7 @@ handleSortItemActionType = (e:any, id:string) => {
     return path;
   }
 
-  getItemByPath = (_arr:any[], itemPath:string) =>{
+  const getItemByPath = (_arr:any[], itemPath:string) =>{
 
     var path = itemPath;
     var nodes = path.split("/");
@@ -727,11 +661,11 @@ handleSortItemActionType = (e:any, id:string) => {
     for (let i = 1; i < nodes.length; i++) // dont consider the root (#/)
     { 
       const node = nodes[i];
-    
+      
       console.log(currentRoot)
 
       var item = currentRoot.find(e=>e.id == node);
-    
+      
       if(i == (nodes.length-1))
       {
         currentRoot = item || null;
@@ -741,17 +675,17 @@ handleSortItemActionType = (e:any, id:string) => {
       currentRoot = item.children;
 
     }
-  
+    
 
     return currentRoot;
 
   }
 
-  placeItemFromItemPath = (_arr:any[], item:any, _sourceItem:any, _type = SortItemActionType.PREV) =>{ 
+  const placeItemFromItemPath = (_arr:any[], item:any, _sourceItem:any, _type = SortItemActionType.PREV) =>{ 
 
     var path = item.path;
     var nodes = path.split("/");
-  
+    
     var _sortableItems = [..._arr];
     var currentParent = _sortableItems;
     var targetParent = currentParent;
@@ -759,7 +693,7 @@ handleSortItemActionType = (e:any, id:string) => {
     { 
       const node = nodes[i];
       var item = currentParent.find(e=>e.id == node);
-    
+      
       targetParent = currentParent;
       var nextParent = item ? item.children : currentParent;
       // set new parent
@@ -769,29 +703,29 @@ handleSortItemActionType = (e:any, id:string) => {
       {
 
         var targetIndex = targetParent.indexOf(item);
-        var targetParentPath = this.getParentPath(item.path);
+        var targetParentPath = getParentPath(item.path);
 
         if(_type != SortItemActionType.INSIDE)
         {
-          this.placeItemAbowOrBelow(targetParent, targetParentPath, _sourceItem, targetIndex, _type);
+          placeItemAbowOrBelow(targetParent, targetParentPath, _sourceItem, targetIndex, _type);
         }
         else
         {
           targetParentPath = item.path;
           targetIndex = item.children.length;
 
-          this.placeItemInside(item.children, targetParentPath, _sourceItem, targetIndex, _type);
+          placeItemInside(item.children, targetParentPath, _sourceItem, targetIndex, _type);
         }
 
       }
-  
+    
     }
-
+ 
     return _sortableItems;
 
   }
 
-  placeItemAbowOrBelow = (_arr:any[], _targetPath : any, _source:any, _targetIndex:any, _type = SortItemActionType.PREV ) =>{
+  const placeItemAbowOrBelow = (_arr:any[], _targetPath : any, _source:any, _targetIndex:any, _type = SortItemActionType.PREV ) =>{
 
 
     var _sourceIndex = _arr.indexOf(_source);
@@ -816,7 +750,7 @@ handleSortItemActionType = (e:any, id:string) => {
 
     // Find the updated index of the target element
     var newTargetIndex = _arr.indexOf(initialArray[_targetIndex]);
-
+  
     if(_type == SortItemActionType.NEXT) 
       newTargetIndex = newTargetIndex + 1;
 
@@ -827,8 +761,8 @@ handleSortItemActionType = (e:any, id:string) => {
   }
 
 
-
-  placeItemInside = (_arr:any[], _targetPath : any, _source:any, _targetIndex:any, _type = SortItemActionType.INSIDE ) =>{
+  
+  const placeItemInside = (_arr:any[], _targetPath : any, _source:any, _targetIndex:any, _type = SortItemActionType.INSIDE ) =>{
 
     var initialArray = [..._arr];
 
@@ -839,36 +773,36 @@ handleSortItemActionType = (e:any, id:string) => {
 
     // Find the updated index of the target element
     // var newTargetIndex = _arr.indexOf(initialArray[_targetIndex]);
-  
+    
     _arr.push(movedElement);
 
     return _arr;
 
   }
-  isTypeElement = (_tag:string, _tags : string[]) =>{
+  const isTypeElement = (_tag:string, _tags : string[]) =>{
     var tags = _tags;
     return tags.includes(_tag);
   }
 
-  isTextElement = (_tag:string) =>{
-    return this.isTypeElement(_tag, ["p"])    
+  const isTextElement = (_tag:string) =>{
+    return isTypeElement(_tag, ["p"])    
   }
 
-  isBlockElement = (_tag:string) =>{
+  const isBlockElement = (_tag:string) =>{
 
-    return this.isTypeElement(_tag, ["div","p"])    
+    return isTypeElement(_tag, ["div","p"])    
   }
 
-  isMediaElement = (_tag:string) =>{
-    return this.isTypeElement(_tag, ["img"])    
+  const isMediaElement = (_tag:string) =>{
+    return isTypeElement(_tag, ["img"])    
   }
 
   // END UTILITIES --------------------------------------------
 
 
-  sortableRendererBlock = (item : any, index : number) =>{
+  const sortableRendererBlock = (item : any, index : number) =>{
 
-  
+    
       return (
         // <div className='lekett-element-container lekett-block-container'>
 
@@ -877,29 +811,29 @@ handleSortItemActionType = (e:any, id:string) => {
               path={item.path}
               key={index}
               className={item.classList}
-              style={this.setStyle(item.style)}
+              style={setStyle(item.style)}
               draggable="true"
-              contentEditable={this.isTextElement(item.tag)}
-              onMouseDown={(e: any) => this.handleSortItemMouseDown(e, index)}
-              onDragStart={(e: any) => this.handleSortItemDragStart(e, index, item)}
-              onDragOver={(e: any) => this.handleSortItemDragOver(e, item.id)}
-              onDragEnter={this.handleSortItemDragEnter}
-              onDragLeave={this.handleSortItemDragLeave}
-              onDrop={(e: any) => this.handleSortItemDrop(e, index, item)}
+              contentEditable={isTextElement(item.tag)}
+              onMouseDown={(e: any) => handleSortItemMouseDown(e, index)}
+              onDragStart={(e: any) => handleSortItemDragStart(e, index, item)}
+              onDragOver={(e: any) => handleSortItemDragOver(e, item.id)}
+              onDragEnter={handleSortItemDragEnter}
+              onDragLeave={handleSortItemDragLeave}
+              onDrop={(e: any) => handleSortItemDrop(e, index, item)}
 
             >
 
-              {this.isTextElement(item.tag) &&
+              {isTextElement(item.tag) &&
               'Text content'}
 
               {item.children.map((_item : any, _index : number) => {
-              
-                if(this.isBlockElement(_item.tag))
-                  return (this.sortableRendererBlock(_item, _index))
-  
-                if(this.isMediaElement(_item.tag))
-                  return (this.sortableRendererMedia(_item, _index))
+                
+                if(isBlockElement(_item.tag))
+                  return (sortableRendererBlock(_item, _index))
     
+                if(isMediaElement(_item.tag))
+                  return (sortableRendererMedia(_item, _index))
+      
               })}
 
 
@@ -912,8 +846,8 @@ handleSortItemActionType = (e:any, id:string) => {
 
   }
 
-
-  sortableRendererMedia = (item : any, index : number) =>{
+  
+  const sortableRendererMedia = (item : any, index : number) =>{
 
     return (
           <item.tag
@@ -922,51 +856,36 @@ handleSortItemActionType = (e:any, id:string) => {
               key={index}
               src={item.media}
               className={item.classList}
-              style={this.setStyle(item.style)}
+              style={setStyle(item.style)}
               draggable="true"
-              contentEditable={this.isTextElement(item.tag)}
-              onMouseDown={(e: any) => this.handleSortItemMouseDown(e, index)}
-              onDragStart={(e: any) => this.handleSortItemDragStart(e, index, item)}
-              onDragOver={(e: any) => this.handleSortItemDragOver(e, item.id)}
-              onDragEnter={this.handleSortItemDragEnter}
-              onDragLeave={this.handleSortItemDragLeave}
-              onDrop={(e: any) => this.handleSortItemDrop(e, index, item)}
+              contentEditable={isTextElement(item.tag)}
+              onMouseDown={(e: any) => handleSortItemMouseDown(e, index)}
+              onDragStart={(e: any) => handleSortItemDragStart(e, index, item)}
+              onDragOver={(e: any) => handleSortItemDragOver(e, item.id)}
+              onDragEnter={handleSortItemDragEnter}
+              onDragLeave={handleSortItemDragLeave}
+              onDrop={(e: any) => handleSortItemDrop(e, index, item)}
 
             />
-      
+       
     )
 
 }
-
-  // Your other methods and event handlers go here...
-
-  render() {
-    const {
-      sortableItems,
-      sortableItemsCounter,
-      hoveringIndex,
-      hoveringItem,
-      sortItemActionType,
-    } = this.state;
-
-    return (
-      <div className="block">
-        <div
-          className="sortable-container"
-          ref={this.sortableContainerRef}
-          id="sortable-container"
-          onMouseDown={this.handleFrameMouseDown}
-          onDragOver={this.handleFrameDragOver}
-          onDrop={this.handleFrameDrop}
-          onDragEnter={this.handleFrameDragEnter}
+  return (
+    <div className="block">
+      <div className="sortable-container" ref={sortableContainerRef} id="sortable-container"
+        onMouseDown={handleFrameMouseDown}
+        onDragOver={handleFrameDragOver}
+        onDrop={handleFrameDrop}
+        onDragEnter={handleFrameDragEnter}
+        
         >
-           
-          {sortableItems.map((item, index) => { 
-          if(this.isBlockElement(item.tag))
-            return (this.sortableRendererBlock(item, index))
+        {sortableItems.map((item, index) => { 
+          if(isBlockElement(item.tag))
+            return (sortableRendererBlock(item, index))
 
-          if(this.isMediaElement(item.tag))
-            return (this.sortableRendererMedia(item, index))
+          if(isMediaElement(item.tag))
+            return (sortableRendererMedia(item, index))
 
         })}
 
@@ -983,10 +902,9 @@ handleSortItemActionType = (e:any, id:string) => {
           <div className='handleRect hr-bottom-right'></div>
         </div>
 
-        </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-export default SortableContainer;
+export default _SortableContainer;

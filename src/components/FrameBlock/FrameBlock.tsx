@@ -1,4 +1,5 @@
 import React from 'react';
+import _SortableContainer from '../SortableContainer/_SortableContainer';
 import SortableContainer from '../SortableContainer/SortableContainer';
 
 const FrameBlock = () => {
