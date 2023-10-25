@@ -1,107 +1,3 @@
-// import { element } from 'prop-types';
-// import React, { useState, useRef, useEffect, DOMElement } from 'react';
-
-// import interact from 'interactjs';
-
-// const SortItemActionType = {
-
-//   PREV : -1,
-//   INSIDE : 0,
-//   NEXT : 1,
-//   NONE : 2 
-
-// }
-
-// const SortableContainer = () => {
-//   const [sortableItems, setSortableItems] = useState<any[]>([]);
-//   const [sortableItemsCounter, setSortableItemsCounter] = useState(0);
-//   const [hoveringIndex, setHoveringIndex] = useState<any>(null);
-//   const [hoveringItem, setHoveringItem] = useState(null);
-//   const [sortItemActionType, setSortItemActionType] = useState(SortItemActionType.NONE);
-
-//   const sortableContainerRef = useRef(null);
-
- 
-//   useEffect(() => {
-    
- 
-//     // let arr = [
-//     //   {id:"1", path:"#/1", children : []},
-//     //   {id:"2", path:"#/2", 
-//     //     children : 
-//     //     [
-//     //       {id:"3", path:"#/2/3", children : [
-//     //         {id:"5", path:"#/2/3/5", children : []}
-//     //       ]},
-//     //     ]
-//     //   },
-//     // ];
-
-//     // var _arr = [...arr];
-//     // console.log(getItemByPath(_arr, '#/2/3'))
-
-//     // removeItemFromPath(arr, {id:"5", path:"#/2/3/5", children : []})
-
-//     // placeItemFromItemPath(arr, 
-//     //   {id:"2", path:"#/2", 
-//     //     children : 
-//     //     [
-//     //       {id:"3", path:"#/2/3", children : [
-//     //         {id:"5", path:"#/2/3/5", children : []}
-//     //       ]},
-//     //     ]
-//     //   }, 
-        
-//     //   {id:"5", path:"#/2/3/5", children : []},
-//     //   false 
-        
-//     //     )
-
-
-    
-//   }, []);
-
-
-
- 
-//   return (
-//     <div className="block">
-//       <div className="sortable-container" ref={sortableContainerRef} id="sortable-container"
-//         onMouseDown={handleFrameMouseDown}
-//         onDragOver={handleFrameDragOver}
-//         onDrop={handleFrameDrop}
-//         onDragEnter={handleFrameDragEnter}
-        
-//         >
-//         {sortableItems.map((item, index) => { 
-//           if(isBlockElement(item.tag))
-//             return (sortableRendererBlock(item, index))
-
-//           if(isMediaElement(item.tag))
-//             return (sortableRendererMedia(item, index))
-
-//         })}
-
-//         <div className='handleBox' style={{display:'none'}}>
-//           <div className='handleRect hr-top-left'></div>
-//           <div className='handleRect hr-top-middle'></div>
-//           <div className='handleRect hr-top-right'></div>
-
-//           <div className='handleRect hr-left'></div>
-//           <div className='handleRect hr-right'></div>
-
-//           <div className='handleRect hr-bottom-left'></div>
-//           <div className='handleRect hr-bottom-middle'></div>
-//           <div className='handleRect hr-bottom-right'></div>
-//         </div>
-
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SortableContainer;
-
 import React, { Component, RefObject } from 'react';
 import interact from 'interactjs';
 
@@ -130,6 +26,8 @@ const SortItemActionType = {
   NONE: 2,
 };
 
+const BLOCK_RERENDER_DELAY = 50;
+
 class SortableContainer extends Component<{}, State> {
   private sortableContainerRef: RefObject<HTMLDivElement>;
 
@@ -146,49 +44,13 @@ class SortableContainer extends Component<{}, State> {
   }
 
 
+
 initResizable = (_ref:string) =>{ // _ref : #id | .class
 
       interact(_ref)
       .resizable({
         // resize from all edges and corners
         edges: { left: true, right: true, bottom: true, top: true },
-  
-        // listeners: {
-        //   move : function(event) {
-        //     var target = event.target
-        //     var x = (parseFloat(target.getAttribute('data-x')) || 0)
-        //     var y = (parseFloat(target.getAttribute('data-y')) || 0)
-  
-        //     // update the element's style
-        //     target.style.width = event.rect.width + 'px'
-        //     target.style.height = event.rect.height + 'px'
-  
-        //     // translate when resizing from top or left edges
-        //     x += event.deltaRect.left
-        //     y += event.deltaRect.top
-  
-        //     target.style.transform = 'translate(' + x + 'px,' + y + 'px)'
-  
-        //     target.setAttribute('data-x', x)
-        //     target.setAttribute('data-y', y)
-        //     // target.textContent = Math.round(event.rect.width) + '\u00D7' + Math.round(event.rect.height)
-
-        //     updateHandles(target);
-        //   },
-        //   onend : function(event) {
-
-        //       console.log("---")
-        //       var element = event.target
-        //       var items = [...sortableItems];
-
-        //       var item = getItemByPath(items, element.getAttribute('path'));
-        //       // Replace item
-        //       var newStyle = element.style.cssText;
-            
-        //       var updatedStyleItems = updateItemStyleFromPath(items, item, newStyle);
-        //       setSortableItems(updatedStyleItems);
-        //   }
-        // },
         modifiers: [
           // keep the edges inside the parent
           interact.modifiers.restrictEdges({
@@ -306,6 +168,8 @@ handleFrameDrop = (e : any) => {
     
     e.preventDefault();
 
+    var _elementId = '';
+
     const data = e.dataTransfer.getData('text/plain');
     var clonedElementData = document.getElementById(data);
     if (clonedElementData && !clonedElementData.classList.contains("sortable-item")) // Not an existing item
@@ -315,6 +179,7 @@ handleFrameDrop = (e : any) => {
       clonedElement.classList.add('sortable-item');
 
       var newElement = this.createItem(clonedElement.nodeName.toLowerCase(), clonedElement);
+      _elementId = newElement.id;
 
       this.setState((prevState) => ({
         sortableItems: [...prevState.sortableItems, newElement],
@@ -323,7 +188,17 @@ handleFrameDrop = (e : any) => {
 
     }
 
-  
+    // Update selection 
+    if(_elementId != '')
+    {
+      setTimeout(() => {
+        
+        var target = document.getElementById(_elementId);
+        this.updateHandles(target);
+        
+      }, BLOCK_RERENDER_DELAY);
+ 
+    }
     // sorting styling
     this.removeHintStyles();
 
@@ -497,6 +372,8 @@ handleSortItemActionType = (e:any, id:string) => {
     e.stopPropagation();
     e.preventDefault();
   
+    var _elementId = '';
+
     var newSortableItems = [...this.state.sortableItems];
 
     if (this.state.hoveringIndex != null && this.state.hoveringItem != item) // No already added item
@@ -549,6 +426,9 @@ handleSortItemActionType = (e:any, id:string) => {
   
         break;
       }
+
+      _elementId = this.state.hoveringItem?.id || '';
+
  
       this.setState((prevState) => ({
         hoveringIndex: null, hoveringItem : null
@@ -569,6 +449,7 @@ handleSortItemActionType = (e:any, id:string) => {
         clonedElement.classList.add('sortable-item');
 
         var newElement = this.createItem(clonedElement.nodeName.toLowerCase(), clonedElement);
+        _elementId = newElement.id;
 
         var itemsListAfterPlacing = this.placeItemFromItemPath(newSortableItems, item, newElement, this.state.sortItemActionType);
  
@@ -579,7 +460,18 @@ handleSortItemActionType = (e:any, id:string) => {
       }
     }
 
-  
+    // Update selection
+    if(_elementId != '')
+    {
+      setTimeout(() => {
+        
+        var target = document.getElementById(_elementId);
+        this.updateHandles(target);
+
+      }, BLOCK_RERENDER_DELAY);
+ 
+    }
+
     // sorting styling
     this.removeHintStyles();
 
